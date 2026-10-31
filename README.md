@@ -1,145 +1,220 @@
-# PatchProof 
 
-**A local-first security inspection and automated remediation workspace built with Flask, React, and Vite.**
+# PATCHPROOF
+### Discover Real Flaws. Test Solutions. Prove Zero Regressions.
 
-PatchProof helps developers inspect websites and source-code projects, review security findings, apply supported fixes, compare original and patched code, and download a patched project archive.
+An intelligent application security platform that detects vulnerabilities, recommends and applies defensive patches, and verifies that security fixes actually work.
 
-> **Source and scope:** This repository was migrated from the uploaded `V9_fixed.py` source. It is not a verification of a separate `PatchProof_4_0_Final(2).py` release. The implementation notes below describe the code that is actually included here.
+**Live Demo:** https://patchproof-indol.vercel.app/
 
-## Features
+---
 
-- **Website inspection** — inspect public website response headers, page facts, and available browser/runtime signals.
-- **Source scanning** — upload a ZIP project or supported individual source files for inspection.
-- **Finding review** — view severity, evidence, and remediation guidance returned by the backend.
-- **Automated remediation** — review and apply supported source patches individually or in a batch.
-- **Patch verification** — run the backend's available checks against the patched result.
-- **Code comparison** — inspect before/after source and patch output.
-- **Project download** — download a ZIP containing the patched project.
-- **Website preview sandbox** — preview selected security-header policy overlays without changing the live origin.
-- **Practice challenge** — use the included fixture to explore the scan-and-fix workflow.
-- **Diagnostics and readiness** — inspect runtime capabilities and the backend's diagnostic results.
-- **Activity timeline** — see a session-local trace of frontend operations.
+## Overview
 
-## Technology stack
+PatchProof is a defensive application security platform designed to make vulnerability detection and remediation more transparent, actionable, and verifiable.
 
-| Layer | Technology |
+Traditional vulnerability scanners identify security weaknesses but often leave developers with the difficult task of understanding, fixing, and validating them.
+
+PatchProof goes beyond detection through an end-to-end security workflow:
+
+1. **Scan** – Inspect public websites or upload application source code.
+2. **Analyze** – Identify vulnerabilities, classify their severity, and provide supporting evidence.
+3. **Patch** – Apply safe defensive changes in an isolated project copy.
+4. **Prove** – Run exploit tests, regression checks, and before-and-after comparisons.
+
+The goal is simple: not just to claim that a vulnerability has been fixed, but to provide evidence that the fix works.
+
+## Key Features
+
+### 1. Website Security Scanner
+
+- Inspect publicly accessible websites.
+- Analyze HTTP security headers and HTTPS transport.
+- Review Content Security Policy (CSP).
+- Check HSTS, MIME sniffing protection, Referrer Policy, and Permissions Policy.
+- Identify browser runtime console errors.
+- Generate actionable security recommendations.
+
+### 2. Source Code Vulnerability Detection
+
+Upload Python, JavaScript, TypeScript, or ZIP source files for security analysis.
+
+The platform focuses on vulnerabilities such as:
+
+- SQL Injection
+- Broken Access Control
+- Path Traversal
+- Insecure application and server configurations
+
+Findings include severity classification, CWE-related information, evidence, and relevant source locations.
+
+### 3. Automated Security Patching
+
+- Generate defensive remediation plans.
+- Apply supported safe patches.
+- Review individual fixes or use the Fix All Safe Patches workflow.
+- Preserve original project files through isolated patching.
+- Display before-and-after code differences.
+- Download the patched project as a ZIP archive.
+
+### 4. Security Verification and Regression Testing
+
+PatchProof doesn't stop after applying a patch.
+
+It provides verification workflows to:
+
+- Test whether the original exploit is blocked.
+- Check whether legitimate application behavior remains functional.
+- Display regression test output.
+- Compare earlier and patched versions.
+- Track fixed and remaining vulnerabilities.
+
+### 5. PS-02: Repeatable Security Practice Challenge
+
+A built-in vulnerable application fixture demonstrates three important security weaknesses:
+
+| Vulnerability | Security validation |
 |---|---|
-| Backend | Python, Flask |
-| Frontend | React 19, Vite |
-| Styling | Tailwind CSS v4 |
-| Motion | Motion for React (`motion/react` import) |
-| Icons | Lucide React |
-| UI components | Seven selected Aceternity UI components |
-| Python security analysis | Bandit, with the source's compatibility fallback |
-| Optional browser checks | Playwright + Chromium |
+| SQL Injection | Malicious queries cannot retrieve unintended records. |
+| Broken Access Control | Unauthorized users cannot perform privileged deletions. |
+| Path Traversal | Files outside the permitted directory cannot be accessed. |
 
-The seven selected Aceternity components are Aurora Background, Bento Grid, Glowing Effect, Code Block, Sidebar, File Upload, and Card Spotlight. Card Spotlight uses an internal Canvas Reveal Effect dependency; this is an implementation helper, not an additional selected component.
+The fixture includes both attack tests and benign regression tests, making it possible to demonstrate security improvements without uploading an external project.
 
-## Project structure
+### 6. Security Center and Analytics
+
+A centralized security dashboard provides:
+
+- Overall application resilience score.
+- Severity distribution.
+- Vulnerability statistics.
+- Fix readiness indicators.
+- Active protection layers.
+- Defensive improvement recommendations.
+
+### 7. Before-and-After Comparison
+
+Visualize the difference between the original and secured application.
+
+Features include:
+
+- Original versus patched source code.
+- Security score comparison.
+- Remaining vulnerability tracking.
+- Sandbox policy previews.
+- Exploit verification results.
+
+### 8. Hackathon Evaluation Readiness
+
+A dedicated evaluation module maps project capabilities against eight judging criteria:
+
+- A – Security Problem and Threat Relevance
+- B – Verified Cybersecurity Effectiveness
+- C – Technical Implementation
+- D – Innovation and Originality
+- E – UI/UX Design and Experience
+- F – Safety and Responsible Engineering
+- G – Feasibility and Real-World Impact
+- H – Live Demo and Communication
+
+This helps connect working features with demonstrable technical evidence.
+
+---
+
+## Technology Stack
+
+### Frontend
+
+- React
+- Vite
+- Tailwind CSS v4
+- Framer Motion
+- Lucide React
+- Aceternity UI components
+
+### Backend
+
+- Python
+- Flask
+- REST API architecture
+- Static analysis and security detection
+- Automated patching and verification workflows
+
+### Deployment
+
+- Vercel – Frontend deployment
+- Flask backend – API and security analysis services
+
+---
+
+## Project Architecture
+
+Example high-level structure:
 
 ```text
-PatchProof/
-├── backend/
-│   └── app.py
-├── backup/
-│   └── V9_fixed.py          # unchanged source backup
-├── frontend/
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.js
-│   └── src/
-│       ├── components/
-│       ├── hooks/
-│       ├── lib/
-│       ├── pages/
-│       ├── services/
-│       ├── utils/
-│       ├── App.jsx
-│       ├── index.css
-│       └── main.jsx
-├── tests/
-├── .env.example
-├── requirements.txt
-├── requirements-browser.txt
-├── TEST_REPORT.md
-└── README.md
+PATCHPROOF/
+|
+|-- backend/
+|   |-- app.py
+|
+|-- frontend/
+|   |-- src/
+|   |-- public/
+|   |-- package.json
+|   |-- vite.config.js
+|
+|-- requirements.txt
+|-- .env.example
+|-- README.md
+|-- .gitignore
 ```
 
-## Requirements
+The frontend communicates with the Flask backend through REST API endpoints under `/api/*`.
 
-- Python **3.10 or newer**
-- Node.js **22.12 or newer** and npm
-- Windows, macOS, or Linux
-- Internet access for installing dependencies and for inspecting public websites
+The architecture separates the user interface from the security analysis and remediation logic, making the platform easier to maintain and extend.
 
-No external AI API key is required. The included security advisor uses the backend's offline/contextual logic.
+---
 
-## Quick start — Windows PowerShell
+## Installation and Setup
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js and npm
+- Git
 
 ### 1. Clone the repository
 
-Replace the URL with your GitHub repository URL:
-
-```powershell
-git clone https://github.com/YOUR-USERNAME/PatchProof.git
+```bash
+git clone YOUR_GITHUB_REPOSITORY_URL
 cd PatchProof
 ```
 
-### 2. Set up the Flask backend
+### 2. Set up the backend
 
-```powershell
-py -3 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
+Create and activate a virtual environment.
 
-If PowerShell blocks virtual-environment activation, allow it for the current terminal session:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venv\Scripts\Activate.ps1
-```
-
-### 3. Start Flask
-
-From the repository root, with the virtual environment active:
-
-```powershell
-python .\backend\app.py
-```
-
-The backend listens at **http://127.0.0.1:5000** by default. Keep this terminal open.
-
-### 4. Set up and start React
-
-Open a second PowerShell terminal:
-
-```powershell
-cd .\PatchProof\frontend
-npm install
-npm run dev
-```
-
-Open **http://127.0.0.1:5173** in your browser. Vite proxies `/api/*` and `/health` requests to Flask on port `5000`.
-
-### 5. Stop the application
-
-Press `Ctrl+C` in both terminal windows.
-
-## macOS / Linux quick start
-
-From the repository root:
+**Windows:**
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
+python -m venv venv
+venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
+
+Start the Flask backend:
+
+```bash
 python backend/app.py
 ```
 
-In a second terminal:
+### 3. Set up the frontend
+
+Open another terminal:
 
 ```bash
 cd frontend
@@ -147,131 +222,98 @@ npm install
 npm run dev
 ```
 
-Then open **http://127.0.0.1:5173**.
+### 4. Open the application
 
-## Optional browser engine
+Visit the local Vite development URL displayed in your terminal, usually:
 
-The website inspection workflow can use Playwright and Chromium when installed. Install the optional dependencies:
-
-```powershell
-# Windows PowerShell, from the repository root
-pip install -r requirements-browser.txt
-python -m playwright install chromium
+```text
+http://localhost:5173
 ```
 
-Without Playwright/Chromium, the backend uses its available static-analysis fallback and should not be interpreted as having completed Chromium-based browser checks.
+**Note:** Configure the frontend API connection and required environment variables using the supplied project configuration and `.env.example` file. The backend must be running for live scanning, patching, and verification features.
 
-## Production frontend build
+---
 
-To build the React frontend and serve it through Flask:
+## Security and Responsible Engineering
 
-```powershell
-cd .\frontend
-npm install
-npm run build
-cd ..
-python .\backend\app.py
-```
+PatchProof is designed as a defensive security tool.
 
-When `frontend/dist/index.html` exists, Flask serves the built frontend at **http://127.0.0.1:5000**. During development, use the separate Vite server at port `5173`.
+Important design considerations include:
 
-## Configuration
+- Source modifications are performed in an isolated copy rather than directly overwriting the original project.
+- Security checks are restricted to supported analysis patterns.
+- Unsupported or ambiguous code patterns should be flagged for manual review rather than automatically modified.
+- Practice-fixture tests use controlled, deliberately vulnerable application scenarios.
+- Website scanning is intended for authorized security assessment.
+- The platform does not deploy changes to third-party websites.
 
-### Backend
+**Important limitation:** Website scanning identifies security configuration gaps and provides remediation recommendations. Applying a sandbox policy does not modify the original website. Actual security improvements must be deployed at the website's origin server or CDN and confirmed through a subsequent scan.
 
-Copy `.env.example` to `.env` and adjust the local bind settings only when needed:
+The static analysis engine does not detect every possible vulnerability. Manual security review remains important.
 
-```dotenv
-PATCHPROOF_HOST=127.0.0.1
-PATCHPROOF_PORT=5000
-```
+---
 
-The defaults bind to localhost. Keep this for local development unless you have deliberately configured an appropriate trusted deployment boundary.
+## Problem Statement
 
-### Frontend development proxy
+Many developers lack accessible tools that connect vulnerability discovery with reliable remediation and verification.
 
-The frontend uses Vite's development proxy. To target a different local backend, copy `frontend/.env.example` to `frontend/.env.local` and set:
+Existing approaches often create a gap between identifying a security issue and proving that the issue has been resolved without introducing new problems.
 
-```dotenv
-VITE_API_TARGET=http://127.0.0.1:5000
-```
+PatchProof addresses this gap through a unified workflow that combines:
 
-Restart Vite after changing the environment file.
+- Vulnerability discovery.
+- Evidence-based security analysis.
+- Automated defensive remediation.
+- Exploit validation.
+- Regression testing.
+- Transparent before-and-after comparisons.
 
-## Supported remediation scope
+## Innovation
 
-The supplied backend's direct AST-based source remediation candidates include:
+The central innovation behind PatchProof is its **proof-gated remediation approach**.
 
-| Finding / pattern | Patch behavior |
-|---|---|
-| SQL injection | SQLite parameterized query transformation (`sqlite_parameter`) |
-| Broken access control | Access-control guard transformation (`access_control`) |
-| Path traversal | Safe-path handling (`safe_path`) |
+Instead of treating a successful patch operation as proof of security, PatchProof emphasizes testing the original attack scenario and checking that legitimate functionality continues to work.
 
-The backend also integrates Bandit when available and includes a Python compatibility fallback. It can produce a bundled Bandit-hardening candidate for a reviewed subset of fixture findings.
+A vulnerability is not simply marked fixed because code changed. It must be tested, verified, and evaluated against regression behavior.
 
-**Important:** The ten patch-pattern list in the original migration brief is not fully implemented by the uploaded source. This repository does not contain registered handlers for `url_scheme`, `literal_eval`, `shell_argv`, `env_secret`, `stronger_digest`, `json_deserialize`, or `flask_debug`. These have not been fabricated or represented as supported fixes.
+---
 
-## Backend API
+## Future Scope
 
-The React frontend calls the existing Flask routes directly.
+Potential future improvements include:
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| `GET` | `/` | Serves production React build when present; otherwise the embedded UI fallback |
-| `GET` | `/health` | Backend health check |
-| `POST` | `/api/audit` | Upload and scan ZIP projects or individual source files |
-| `POST` | `/api/apply-patch` | Apply one registered source patch and verify it |
-| `POST` | `/api/apply-all` | Apply selected/all patches; empty `patch_ids` resets the patched copy to the original input |
-| `GET` | `/api/download/<project_id>` | Download the patched project ZIP |
-| `POST` | `/api/inspect` | Inspect a public website |
-| `POST` | `/api/challenge-demo` | Run the built-in practice challenge |
-| `POST` | `/api/analytics/stats` | Return security analytics aggregates |
-| `POST` | `/api/website-sandbox-fix` | Apply supported security-header overlays to a local preview sandbox |
-| `GET` | `/api/preview` | Browser screenshot endpoint; requires Playwright + Chromium |
-| `GET` | `/api/website-preview-original` | Preview the original website |
-| `GET` | `/api/website-preview-patched` | Preview the patched-policy website sandbox |
-| `GET` | `/api/sample-project` | Download the built-in practice fixture ZIP |
-| `GET` | `/api/evaluation/readiness` | Return evidence-readiness and diagnostic information |
-| `GET` | `/api/diagnostics/ultra` | Run the built-in backend diagnostic suite |
-| `GET` | `/api/diagnostics` | Report runtime and dependency capabilities |
+- Expanded vulnerability detection across more programming languages.
+- Deeper integration with CI/CD pipelines.
+- More advanced contextual and AI-assisted remediation.
+- Additional security testing frameworks.
+- Automated post-deployment security monitoring.
+- Broader CWE and OWASP vulnerability coverage.
+- More comprehensive regression and false-positive analysis.
 
-Project IDs and upload workspaces are held in process memory. Keep the Flask process running during a workflow. Restarting Flask clears active project sessions; upload and scan the project again if a session has expired.
+---
 
-## Testing and validation
+## Hackathon Project
 
-See [`TEST_REPORT.md`](./TEST_REPORT.md) for the detailed report. The available validation includes:
+**PATCHPROOF — Security Analysis and Verified Remediation**
 
-- Python compilation
-- 12 source-contract tests
-- 22 built-in backend diagnostics
-- JavaScript/JSX parsing and relative-import resolution
-- Vite configuration and package JSON validation
-- ZIP integrity and original-backup hash verification
+Built to demonstrate how application security can become more accessible, transparent, and measurable.
 
-**Build limitation:** In the environment where this migration was assembled, npm registry access timed out. Therefore `npm install`, `npm run build`, live browser rendering, and live React-to-Flask HTTP workflows were not verified there. The diagnostic suite was executed with a Flask import shim because Flask was not installed in that environment; it was not a live HTTP server test. Install dependencies locally and run the commands above before relying on a deployment.
+Rather than stopping at identifying vulnerabilities, PatchProof aims to demonstrate the complete journey from detection to verified remediation.
 
-## Security notes
+**Live Website:** https://patchproof-indol.vercel.app/
 
-- This is a local development and security-assistance tool, not a substitute for manual security review, CI isolation, production authentication, or deployment approval.
-- Keep Flask bound to `127.0.0.1` for local use. Do not expose the development server directly to the public internet.
-- Uploaded ZIP files are processed by the backend's safe extraction routine. Do not remove or weaken its archive path checks.
-- Uploaded untrusted test suites are not automatically executed by the web process; the backend contains an explicit execution guard.
-- Website URL and redirect validation are part of the backend's security boundary. Preserve these checks when modifying the application.
-- Website sandbox header overlays change the local preview response, not the real website's server, CDN, or production configuration.
-- The backend does not expose a separate persistent patch-history or historical rollback API. `POST /api/apply-all` with an empty `patch_ids` list resets the patched copy to its original uploaded content; this is a reset to baseline, not a version-history rollback.
-- The source does not include a finding-feedback persistence endpoint. The frontend activity timeline is client-side and session-local, not server-persisted audit history.
+---
 
-## Contributing
+## Disclaimer
 
-Issues and pull requests are welcome. Before submitting a change:
+PatchProof is intended for educational, defensive, and authorized security testing purposes only.
 
-1. Preserve existing Flask route contracts unless a change is documented.
-2. Add or update tests for backend behavior.
-3. Run the Python tests and compile checks.
-4. Run `npm run build` for frontend changes.
-5. Document any capability that requires an optional dependency or external service.
+Users are responsible for obtaining appropriate authorization before scanning websites or analyzing application source code. Never use the platform to access, exploit, or modify systems without permission.
 
-## License
+---
 
-No license file was supplied with this source. Add a `LICENSE` file before distributing this repository under an open-source license.
+<p align="center">
+  <strong>PATCHPROOF</strong><br>
+  Detect. Defend. Verify.<br>
+  Made for a more secure digital world.
+</p>

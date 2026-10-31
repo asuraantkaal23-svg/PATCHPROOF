@@ -1,5 +1,4 @@
-# PATCHPROOF
-# PatchProof 4.0
+# PatchProof 
 
 **A local-first security inspection and automated remediation workspace built with Flask, React, and Vite.**
 
